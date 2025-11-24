@@ -3,6 +3,8 @@
 #include "Pokemon.h"
 #include "Move.h"
 #include <iostream>
+#include <cmath>
+#include <iostream>
 using std::string;
 
 Pokemon::Pokemon(size_t id, unsigned int level)
@@ -16,6 +18,9 @@ Pokemon::Pokemon(size_t id, unsigned int level)
     //TODO: Set Moves based on Level
     size_t moveIdx = 0;
     for (auto pair : levelUpMoves[id_]) {
+        if (pair.first > level_) {
+            break;
+        }
         moveIdxs_[moveIdx] = pair.second;
         moveIdx++;
         if (numMoves_ < 4) {
@@ -23,9 +28,6 @@ Pokemon::Pokemon(size_t id, unsigned int level)
         }
         while (moveIdx >= 4) {
             moveIdx -=4;
-        }
-        if (pair.first > level_) {
-            break;
         }
     }
     
@@ -77,8 +79,10 @@ void Pokemon::printMoves() {
 }
 
 //returns enemy hp remaining
-unsigned int Pokemon::useMove(size_t moveIdx, Pokemon enemy) {
+unsigned int Pokemon::useMove(size_t moveIdx, Pokemon &enemy) {
+    std::cout << nickname_ << " used ";
     Move move = MoveDb[moveIdxs_[moveIdx]];
+    std::cout << move.getName() << "!'\n'";
     unsigned int totalPower = move.getPower() * spAttack_;
     return enemy.takeDamage(totalPower);
 }
@@ -86,10 +90,12 @@ unsigned int Pokemon::useMove(size_t moveIdx, Pokemon enemy) {
 unsigned int Pokemon::takeDamage(unsigned int totalPower) {
     unsigned int hpToLose = (totalPower / spDefense_) / 12;
     
+    hpToLose = std::min(hpToLose, currHp_);
     currHp_ -= hpToLose;
+    std::cout << nickname_ << " took " << hpToLose << " damage!'\n'";
     if (currHp_ <= 0) {
         currHp_ = 0;
-        //faints
+        //should never happen
     }
     return currHp_;
 }

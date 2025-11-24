@@ -18,7 +18,7 @@ public:
     unsigned int getSpeed();
     unsigned int getNumMoves();
     void printMoves();
-    unsigned int useMove(size_t moveIdx, Pokemon enemy);
+    unsigned int useMove(size_t moveIdx, Pokemon& enemy);
     unsigned int takeDamage(unsigned int totalPower);
 
 private:

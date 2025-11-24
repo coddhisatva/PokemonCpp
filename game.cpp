@@ -8,6 +8,7 @@
 #include "Trainer.h"
 
 using std::cout;
+using std::cin;
 using std::vector;
 using std::endl;
 using std::string;
@@ -40,11 +41,19 @@ void Game::chooseStarter() {
     std::cin >> starterChoice;
     
     while (starterChoice != 1 && starterChoice != 2 && starterChoice != 3) {
-        cout << starterChoice << " is invalid choice!";
+        if (cin.fail()) {
+            cin.clear();
+            cout << "That's an invalid choice!'\n'";
+        }
+        else {
+            cout << starterChoice << " is invalid choice!'\n'";
+        }
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout << PokemonDb[starter1] << " (1)'\n'" << PokemonDb[starter2] << " (2)'\n'" << PokemonDb[starter3] << " (3)'\n'";
         cout << "Please select (1, 2, or 3): ";
+        cin >> starterChoice;
     }
-    starterChoice_ = starterChoice;
+    starterChoice_ = --starterChoice;
     
     auto starter = std::make_unique<Pokemon>(starterChoice, 5);
     player_.addToParty(*starter);
@@ -59,6 +68,7 @@ void Game::rivalAppears() {
 
 //TODO: Battle is it's own function (or maybe class), and Trainer is a class too
 void Game::rivalBattle() {
+    
     Trainer rival = Trainer(rivalName, {Pokemon(starterChoice_ + 1, 5)});
     
     Battle battle(player_, rival);

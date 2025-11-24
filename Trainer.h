@@ -8,7 +8,7 @@ class Trainer {
 public:
     Trainer(std::string name, std::initializer_list<Pokemon> party);
     
-    Pokemon sendOutPokemon();
+    Pokemon& sendOutPokemon();
     
     string getName();
     

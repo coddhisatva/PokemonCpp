@@ -44,7 +44,8 @@ unordered_map<size_t, std::vector<std::pair<unsigned int, size_t>>> levelUpMoves
         {
             {1, THUNDERBOLT},
             {5, SWIFT},
-            {6, HYDRO_CANNON}
+            {6, HYDRO_CANNON},
+            {8, RETRO_AMNESIA}
         }
     },
     
