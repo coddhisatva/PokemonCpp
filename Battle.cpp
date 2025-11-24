@@ -56,14 +56,14 @@ bool Battle::start() {
         
         for (int i = 0; i < 2; i++) {
             if (turn == OPPONENT) {
-                cout << "enemy here" << std::endl;
+                //cout << "enemy here" << std::endl;
                 if (!enemyPoke.useMove(randInt(0, enemyPoke.getNumMoves() - 1), currentPoke)) {
                     playerFainted = true;
                     break;
                 }
                 turn = !turn;
             } else {
-                cout << "Player here" << std::endl;
+                //cout << "Player here" << std::endl;
                 if (!currentPoke.useMove(moveSelect, enemyPoke)) {
                     enemyFainted = true;
                     break;
