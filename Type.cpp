@@ -2,17 +2,17 @@
 #include <string>
 using std::string;
 
-Type::Type(size_t typeId)
-: typeId_(typeId)
-{}
+Type::Type(size_t typeId, string name)
+: typeId_(typeId), name_(name)
+{};
 
 const Type TypeDb[NUM_TYPES] = {
-    Type("Normal"),
-    Type("Fire"),
-    Type("Water"),
-    Type("Grass"),
-    Type("Electric"),
-    Type("Psychic"),
-    Type("Fairy")
+    Type(NORMAL, "Normal"),
+    Type(FIRE, "Fire"),
+    Type(WATER, "Water"),
+    Type(GRASS, "Grass"),
+    Type(ELECTRIC, "Electric"),
+    Type(PSYCHIC, "Psychic"),
+    Type(FAIRY, "Fairy")
 };
 

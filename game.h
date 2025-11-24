@@ -7,22 +7,25 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "Player.h"
 using std::string;
 using std::unordered_map;
 using std::vector;
 
-void dataAsserts() {
-    assert(levelUpMoves.size() == NUM_POKEMON && "levelUpMoves.size() != NUM_POKEMON");
-}
-
-void createAllMoves();
-
 class Game {
 public:
+    Game(string playerName);
     void run(string command);
+    void rivalAppears();
+    void rivalBattle();
+    void chooseStarter();
     
 private:
-    void chooseStarter();
+    
+    size_t starterChoice_;
+    Player player_;
+    Player initPlayer();
+    string rivalName = "Stinky";
 };
 
 

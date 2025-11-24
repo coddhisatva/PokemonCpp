@@ -1,11 +1,13 @@
-
+#pragma once
+#include "Pokemon.h"
+#include "Trainer.h"
 #include <string>
 
-class Player {
+class Player : public Trainer {
     
 public:
     Player(std::string name);
-private:
-    std::string name_;
+    void addToParty(Pokemon pokemon);
+
 };
 

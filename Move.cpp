@@ -12,7 +12,14 @@ Move::Move(string name, size_t typeId, unsigned int power)
 : name_(name), typeId_(typeId), power_(power)
 {}
 
-const Move MOVE_DB[NUM_MOVES] = {
+string Move::getName() {
+    return name_;
+}
+unsigned int Move::getPower() {
+    return power_;
+}
+
+const Move MoveDb[NUM_MOVES] = {
     Move("Swift", NORMAL, 60),
     Move("Ember", FIRE, 40),
     Move("Thunderbolt", ELECTRIC, 90),
@@ -20,7 +27,12 @@ const Move MOVE_DB[NUM_MOVES] = {
     Move("Retro Amnesia", PSYCHIC, 0)
 };
 
-unordered_map<int, std::vector<std::pair<size_t, size_t>>> levelUpMoves = {
+std::ostream& operator<<(std::ostream& os, const Move& move) {
+    os << move.name_;
+    return os;
+};
+
+unordered_map<size_t, std::vector<std::pair<unsigned int, size_t>>> levelUpMoves = {
     { CHARMANDER,
         {
             {1, SWIFT},
@@ -45,7 +57,8 @@ unordered_map<int, std::vector<std::pair<size_t, size_t>>> levelUpMoves = {
     
     { JIGGLYPUFF,
         {
-            {}
+            {1, SWIFT},
+            {5, RETRO_AMNESIA}
         }
     }
 };

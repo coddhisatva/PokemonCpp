@@ -2,18 +2,96 @@
 #include <string>
 #include "Pokemon.h"
 #include "Move.h"
+#include <iostream>
 using std::string;
 
 Pokemon::Pokemon(size_t id, unsigned int level)
-: id_(id), level_(level)
+: id_(id), level_(level), species_(PokemonDb[id])
 {
+    bool isNickname = false;
+    if (!isNickname) {
+        nickname_ = species_.getName();
+    } // TODO: nickname
+    
     //TODO: Set Moves based on Level
+    size_t moveIdx = 0;
+    for (auto pair : levelUpMoves[id_]) {
+        moveIdxs_[moveIdx] = pair.second;
+        moveIdx++;
+        if (numMoves_ < 4) {
+            numMoves_++;
+        }
+        while (moveIdx >= 4) {
+            moveIdx -=4;
+        }
+        if (pair.first > level_) {
+            break;
+        }
+    }
+    
+    //TODO: stats dynamic w/ level, maybe evs, not just species:
+    currHp_ = maxHp_ = species_.getHp();
+    spAttack_ = species_.getSpAttack();
+    spDefense_ = species_.getSpDefense();
+    speed_ = species_.getSpeed();
 };
 
+PokemonSpecies Pokemon::getSpecies() {
+    return species_;
+}
 
-const Pokemon PokemonDb[NUM_POKEMON] = {
-    {CHARMANDER},
-    {PIKACHU},
-    {SQUIRTLE},
-    {JIGGLYPUFF}
-};
+
+
+string Pokemon::getNickname() {
+    return nickname_;
+}
+
+unsigned int Pokemon::getMaxHp() {
+    return maxHp_;
+}
+
+unsigned int Pokemon::getCurrHp() {
+    return currHp_;
+}
+
+unsigned int Pokemon::getSpAttack() {
+    return spAttack_;
+}
+
+unsigned int Pokemon::getSpDefense() {
+    return spDefense_;
+}
+
+unsigned int Pokemon::getSpeed() {
+    return speed_;
+}
+
+unsigned int Pokemon::getNumMoves() {
+    return numMoves_;
+}
+
+void Pokemon::printMoves() {
+    for (int i = 0; i < numMoves_; i++) {
+        std::cout << MoveDb[moveIdxs_[i]] << " (" << i << ")'\n'";
+    }
+}
+
+//returns enemy hp remaining
+unsigned int Pokemon::useMove(size_t moveIdx, Pokemon enemy) {
+    Move move = MoveDb[moveIdxs_[moveIdx]];
+    unsigned int totalPower = move.getPower() * spAttack_;
+    return enemy.takeDamage(totalPower);
+}
+
+unsigned int Pokemon::takeDamage(unsigned int totalPower) {
+    unsigned int hpToLose = (totalPower / spDefense_) / 12;
+    
+    currHp_ -= hpToLose;
+    if (currHp_ <= 0) {
+        currHp_ = 0;
+        //faints
+    }
+    return currHp_;
+}
+
+

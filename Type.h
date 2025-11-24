@@ -3,13 +3,14 @@
 using std::string;
 class Type {
 public:
-    Type(string name);
+    Type(size_t typeId, string name);
 private:
     
     size_t typeId_;
+    string name_;
 };
 
-enum TYPE_ID {
+enum TYPE_ID: size_t {
     NORMAL,
     FIRE,
     WATER,
